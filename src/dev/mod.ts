@@ -4,8 +4,10 @@ import {
   fromFileUrl,
   gte,
   join,
+  relative,
   toFileUrl,
   walk,
+  SEP,
 } from "./deps.ts";
 import { error } from "./error.ts";
 
@@ -83,6 +85,14 @@ export async function collect(directory: string): Promise<Manifest> {
         const file = toFileUrl(path).href.substring(islandsUrl.href.length);
         islands.push(file);
       }
+    }
+    const islandsFiles = walk(directory, {
+      includeDirs: false,
+      includeFiles: true,
+      exts: ["island.tsx", "island.jsx", "island.ts", "island.js"],
+    });
+    for await (const entry of islandsFiles) {
+        islands.push(SEP + relative(islandsDir, entry.path))
     }
   } catch (err) {
     if (err instanceof Deno.errors.NotFound) {
