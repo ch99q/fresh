@@ -6,4 +6,9 @@ export default function Page(props: PageProps) {
 
 export const config: RouteConfig = {
   routeOverride: "/books/:id(\\d+)",
+
+  rewrite: [
+    "/bøger/:id(\\d+)",
+    "/böcker/:id(\\d+)",
+  ]
 };

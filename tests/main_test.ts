@@ -165,6 +165,39 @@ Deno.test("/books/:id page - /books/abc", async () => {
   assertEquals(resp.status, Status.NotFound);
 });
 
+Deno.test("/bøger/:id page - /books/123 (rewrite)", async () => {
+  const resp = await router(new Request("https://fresh.deno.dev/bøger/123"));
+  assert(resp);
+  assertEquals(resp.status, Status.OK);
+  assertEquals(resp.headers.get("content-type"), "text/html; charset=utf-8");
+  const body = await resp.text();
+  assertStringIncludes(body, "<div>Book 123</div>");
+});
+
+Deno.test("/bøger/:id page - /books/abc (rewrite)", async () => {
+  const resp = await router(new Request("https://fresh.deno.dev/bøger/abc"));
+  assert(resp);
+  assertEquals(resp.status, Status.NotFound);
+});
+
+Deno.test("/language page - /language (rewrite)", async () => {
+  const resp = await router(new Request("https://fresh.deno.dev/language"));
+  assert(resp);
+  assertEquals(resp.status, Status.OK);
+  assertEquals(resp.headers.get("content-type"), "application/json");
+  const body = await resp.text();
+  assertStringIncludes(body, "{\"message\":\"Hello, world!\"}");
+});
+
+Deno.test("/sprog page - /language (rewrite)", async () => {
+  const resp = await router(new Request("https://fresh.deno.dev/sprog"));
+  assert(resp);
+  assertEquals(resp.status, Status.OK);
+  assertEquals(resp.headers.get("content-type"), "application/json");
+  const body = await resp.text();
+  assertStringIncludes(body, "{\"message\":\"Hello, world!\"}");
+});
+
 Deno.test("redirect /pages/fresh/ to /pages/fresh", async () => {
   const resp = await router(new Request("https://fresh.deno.dev/pages/fresh/"));
   assert(resp);
