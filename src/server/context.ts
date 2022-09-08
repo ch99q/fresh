@@ -172,6 +172,20 @@ export class ServerContext {
           handler,
           csp: Boolean(config?.csp ?? false),
         };
+        if(config?.rewrite) {
+          for(let i = 0; i < config.rewrite.length; i++) {
+            const pattern = config.rewrite[i];
+            const rewriteRoute: Route = {
+              pattern,
+              url: route.url,
+              name: name + "-rewrite-" + i,
+              component: route.component,
+              handler: route.handler,
+              csp: route.csp,
+            }
+            routes.push(rewriteRoute);
+          }
+        }
         routes.push(route);
       } else if (isMiddleware) {
         middlewares.push({
