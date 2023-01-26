@@ -69,6 +69,19 @@ export interface RouteConfig {
    * using the `useCSP` hook.
    */
   csp?: boolean;
+  
+  /**
+   * A array of route matchers that should be redirected to this page.
+   * 
+   * @example
+   * ```ts
+   * [
+   *   "/foo/:id",
+   *   "/bar/:id"
+   * ]
+   * ```
+   */
+  rewrite?: string[];
 }
 
 export interface HandlerContext<Data = unknown, State = Record<string, unknown>>
