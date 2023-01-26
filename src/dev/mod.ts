@@ -6,10 +6,20 @@ import {
   join,
   toFileUrl,
   walk,
+  BufReader
 } from "./deps.ts";
 import { error } from "./error.ts";
 
 const MIN_DENO_VERSION = "1.25.0";
+
+export async function isClientComponent(file: string) {
+  const stream = await Deno.open(file, { read: true });
+  const bufReader = new BufReader(stream);
+  const buf = await bufReader.readLine();
+  stream.close();
+  const line = new TextDecoder().decode(buf?.line ?? new Uint8Array());
+  return line.startsWith("\"use island\"") || line.startsWith("'use island'");
+}
 
 export function ensureMinDenoVersion() {
   // Check that the minimum supported Deno version is being used.
@@ -35,7 +45,6 @@ interface Manifest {
 
 export async function collect(directory: string): Promise<Manifest> {
   const routesDir = join(directory, "./routes");
-  const islandsDir = join(directory, "./islands");
 
   const routes = [];
   try {
@@ -69,19 +78,20 @@ export async function collect(directory: string): Promise<Manifest> {
 
   const islands = [];
   try {
-    const islandsUrl = toFileUrl(islandsDir);
-    for await (const entry of Deno.readDir(islandsDir)) {
-      if (entry.isDirectory) {
-        error(
-          `Found subdirectory '${entry.name}' in islands/. The islands/ folder must not contain any subdirectories.`,
-        );
-      }
+    const directoryUrl = toFileUrl(directory);
+    for await (const entry of walk(directory, {
+      includeDirs: false,
+      includeFiles: true,
+      exts: ["tsx", "jsx", "ts", "js"],
+    })) {
       if (entry.isFile) {
         const ext = extname(entry.name);
         if (![".tsx", ".jsx", ".ts", ".js"].includes(ext)) continue;
-        const path = join(islandsDir, entry.name);
-        const file = toFileUrl(path).href.substring(islandsUrl.href.length);
-        islands.push(file);
+        if (await isClientComponent(entry.path)) {
+          islands.push(
+            toFileUrl(entry.path).href.substring(directoryUrl.href.length)
+          );
+        }
       }
     }
   } catch (err) {
@@ -104,28 +114,24 @@ export async function generate(directory: string, manifest: Manifest) {
 // This file is automatically updated during development when running \`dev.ts\`.
 
 import config from "./deno.json" assert { type: "json" };
-${
-    routes.map((file, i) => `import * as $${i} from "./routes${file}";`).join(
-      "\n",
-    )
-  }
-${
-    islands.map((file, i) => `import * as $$${i} from "./islands${file}";`)
+${routes.map((file, i) => `import * as $${i} from "./routes${file}";`).join(
+    "\n",
+  )
+    }
+${islands.map((file, i) => `import * as $$${i} from ".${file}";`)
       .join("\n")
-  }
+    }
 
 const manifest = {
   routes: {
-    ${
-    routes.map((file, i) => `${JSON.stringify(`./routes${file}`)}: $${i},`)
+    ${routes.map((file, i) => `${JSON.stringify(`./routes${file}`)}: $${i},`)
       .join("\n    ")
-  }
+    }
   },
   islands: {
-    ${
-    islands.map((file, i) => `${JSON.stringify(`./islands${file}`)}: $$${i},`)
+    ${islands.map((file, i) => `${JSON.stringify(`.${file}`)}: $$${i},`)
       .join("\n    ")
-  }
+    }
   },
   baseUrl: import.meta.url,
   config,
