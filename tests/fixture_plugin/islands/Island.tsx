@@ -1,3 +1,5 @@
+"use island";
+
 import { IS_BROWSER } from "../../../src/runtime/utils.ts";
 
 export default function Island() {

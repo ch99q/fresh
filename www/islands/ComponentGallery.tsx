@@ -1,3 +1,5 @@
+"use island";
+
 import Button from "../components/gallery/Button.tsx";
 import LinkButton from "../components/gallery/LinkButton.tsx";
 import ColoredButton from "../components/gallery/ColoredButton.tsx";

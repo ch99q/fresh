@@ -1,3 +1,5 @@
+"use island";
+
 import { Head } from "$fresh/runtime.ts";
 import { useEffect, useRef } from "preact/hooks";
 import docsearch from "https://esm.sh/@docsearch/js@3";
