@@ -186,7 +186,6 @@ export class ServerContext {
             routes.push(rewriteRoute);
           }
         }
-        console.log(routes);
         routes.push(route);
       } else if (isMiddleware) {
         middlewares.push({
