@@ -165,6 +165,21 @@ Deno.test("/books/:id page - /books/abc", async () => {
   assertEquals(resp.status, Status.NotFound);
 });
 
+Deno.test("rewrite /bøger/:id to /books/123", async () => {
+  const resp = await router(new Request("https://fresh.deno.dev/bøger/123"));
+  assert(resp);
+  assertEquals(resp.status, Status.OK);
+  assertEquals(resp.headers.get("content-type"), "text/html; charset=utf-8");
+  const body = await resp.text();
+  assertStringIncludes(body, "<div>Book 123</div>");
+});
+
+Deno.test("rewrite /bøger/:id /books/abc", async () => {
+  const resp = await router(new Request("https://fresh.deno.dev/bøger/abc"));
+  assert(resp);
+  assertEquals(resp.status, Status.NotFound);
+});
+
 Deno.test("redirect /pages/fresh/ to /pages/fresh", async () => {
   const resp = await router(new Request("https://fresh.deno.dev/pages/fresh/"));
   assert(resp);
