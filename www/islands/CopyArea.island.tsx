@@ -1,5 +1,3 @@
-"use island";
-
 import { ComponentChildren } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";

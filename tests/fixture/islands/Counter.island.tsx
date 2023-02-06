@@ -1,16 +1,12 @@
-"use island";
-
 import { useState } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 
-interface KebabCaseFileNameTestProps {
+interface CounterProps {
   start: number;
   id: string;
 }
 
-export default function KebabCaseFileNameTest(
-  props: KebabCaseFileNameTestProps,
-) {
+export default function Counter(props: CounterProps) {
   const [count, setCount] = useState(props.start);
   return (
     <div id={props.id}>

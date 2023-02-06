@@ -1,5 +1,3 @@
-"use island";
-
 export default function Test(props: { message: string }) {
   return (
     <div>

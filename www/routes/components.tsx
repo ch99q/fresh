@@ -1,6 +1,6 @@
 import PageFooter from "../components/Footer.tsx";
 import Header from "../components/Header.tsx";
-import ComponentGallery from "../islands/ComponentGallery.tsx";
+import ComponentGallery from "../islands/ComponentGallery.island.tsx";
 
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";

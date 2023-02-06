@@ -1,5 +1,5 @@
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import Test from "../islands/Test.tsx";
+import Test from "../islands/Test.island.tsx";
 
 export default function Home() {
   return (

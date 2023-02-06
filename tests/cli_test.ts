@@ -78,7 +78,7 @@ Deno.test({
             "type": "directory",
             "name": "islands",
             "contents": [
-              { "type": "file", "name": "Counter.tsx" },
+              { "type": "file", "name": "Counter.island.tsx" },
             ],
           },
           { "type": "file", "name": "main.ts" },
@@ -222,7 +222,7 @@ Deno.test({
             "type": "directory",
             "name": "islands",
             "contents": [
-              { "type": "file", "name": "Counter.tsx" },
+              { "type": "file", "name": "Counter.island.tsx" },
             ],
           },
           { "type": "file", "name": "main.ts" },

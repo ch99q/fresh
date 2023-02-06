@@ -1,5 +1,3 @@
-"use island";
-
 import { useEffect, useRef, useState } from "preact/hooks";
 import { Spring, WaveTank } from "../components/WaveTank.ts";
 

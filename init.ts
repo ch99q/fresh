@@ -94,7 +94,7 @@ await Deno.writeTextFile(
 );
 
 const ROUTES_INDEX_TSX = `import { Head } from "$fresh/runtime.ts";
-import Counter from "../islands/Counter.tsx";
+import Counter from "../islands/Counter.island.tsx";
 
 export default function Home() {
   return (
@@ -165,7 +165,7 @@ export default function Counter(props: CounterProps) {
 }
 `;
 await Deno.writeTextFile(
-  join(resolvedDirectory, "islands", "Counter.tsx"),
+  join(resolvedDirectory, "islands", "Counter.island.tsx"),
   ISLANDS_COUNTER_TSX,
 );
 

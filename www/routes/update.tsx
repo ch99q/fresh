@@ -1,11 +1,11 @@
 import { asset, Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import Counter from "../islands/Counter.tsx";
-import LemonDrop from "../islands/LemonDrop.tsx";
+import Counter from "../islands/Counter.island.tsx";
+import LemonDrop from "../islands/LemonDrop.island.tsx";
 import Footer from "../components/Footer.tsx";
 import VERSIONS from "../../versions.json" assert { type: "json" };
 import * as FeatureIcons from "../components/FeatureIcons.tsx";
-import CopyArea from "../islands/CopyArea.tsx";
+import CopyArea from "../islands/CopyArea.island.tsx";
 import * as Icons from "../components/Icons.tsx";
 import Projects from "../components/Projects.tsx";
 import projects from "../data/showcase.json" assert { type: "json" };
