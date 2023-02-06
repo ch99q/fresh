@@ -1,6 +1,6 @@
-import Counter from "../../islands/Counter.tsx";
-import KebabCaseFileNameTest from "../../islands/kebab-case-counter-test.tsx";
-import Test from "../../islands/Test.tsx";
+import Counter from "../../islands/Counter.island.tsx";
+import KebabCaseFileNameTest from "../../islands/kebab-case-counter-test.island.tsx";
+import Test from "../../islands/Test.island.tsx";
 
 export default function Home() {
   return (

@@ -1,25 +1,14 @@
 import {
   dirname,
-  extname,
   fromFileUrl,
   gte,
   join,
   toFileUrl,
-  walk,
-  BufReader
+  walk
 } from "./deps.ts";
 import { error } from "./error.ts";
 
 const MIN_DENO_VERSION = "1.25.0";
-
-export async function isClientComponent(file: string) {
-  const stream = await Deno.open(file, { read: true });
-  const bufReader = new BufReader(stream);
-  const buf = await bufReader.readLine();
-  stream.close();
-  const line = new TextDecoder().decode(buf?.line ?? new Uint8Array());
-  return line.startsWith("\"use island\"") || line.startsWith("'use island'");
-}
 
 export function ensureMinDenoVersion() {
   // Check that the minimum supported Deno version is being used.
@@ -84,14 +73,14 @@ export async function collect(directory: string): Promise<Manifest> {
       includeFiles: true,
       exts: ["tsx", "jsx", "ts", "js"],
     })) {
-      if (entry.isFile) {
-        const ext = extname(entry.name);
-        if (![".tsx", ".jsx", ".ts", ".js"].includes(ext)) continue;
-        if (await isClientComponent(entry.path)) {
-          islands.push(
-            toFileUrl(entry.path).href.substring(directoryUrl.href.length)
-          );
-        }
+      if (entry.isFile &&
+        [".island.tsx", ".island.jsx", ".island.ts", ".island.js"]
+          .map(i => entry.path.endsWith(i))
+          .some(Boolean)
+      ) {
+        islands.push(
+          toFileUrl(entry.path).href.substring(directoryUrl.href.length)
+        );
       }
     }
   } catch (err) {

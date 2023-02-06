@@ -1,4 +1,4 @@
-import Test from "../islands/Test.tsx";
+import Test from "../islands/Test.island.tsx";
 
 export default function EvilPage() {
   return (

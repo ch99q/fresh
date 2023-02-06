@@ -1,5 +1,3 @@
-"use island";
-
 import { useState } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { RoundedButton } from "../components/Button.tsx";

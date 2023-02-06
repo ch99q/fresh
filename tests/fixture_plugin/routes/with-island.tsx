@@ -1,4 +1,4 @@
-import Island from "../islands/Island.tsx";
+import Island from "../islands/Island.island.tsx";
 import { inject } from "../utils/css-inject-plugin.ts";
 
 export default function Home() {

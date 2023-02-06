@@ -4,7 +4,7 @@ import {
   TableOfContentsCategory,
   TableOfContentsCategoryEntry,
 } from "../data/docs.ts";
-import SearchButton from "../islands/SearchButton.tsx";
+import SearchButton from "../islands/SearchButton.island.tsx";
 
 export default function DocsSidebar(props: { path: string; mobile?: boolean }) {
   const id = String(Math.random()).replaceAll(".", "");
